@@ -1,11 +1,108 @@
 /**
- * Register - requires username, email, password and dp
+ * Register - requires firstname, lastname, email, password and dp
  */
 
-import React from "react";
+import React, { useState } from "react";
+import AuthLayout from "../components/containers/authLayout";
 
 const Register = () => {
-  return <div>Register</div>;
+  const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <AuthLayout>
+      <form action="">
+        <h1 className={styles.title}>Create your account</h1>
+
+        <div className={styles.inputContainer}>
+          <div>
+            <label htmlFor="firstname" className={styles.inputLabel}>
+              Enter Firstname
+            </label>
+
+            <input
+              type="text"
+              className="input-field"
+              required
+              placeholder="e.g John"
+              id="firstname"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="firstname" className={styles.inputLabel}>
+              Enter Lastname
+            </label>
+
+            <input
+              type="text"
+              className="input-field"
+              required
+              placeholder="e.g John"
+              id="lastname"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className={styles.inputLabel}>
+              Enter Email
+            </label>
+
+            <input
+              type="email"
+              className="input-field"
+              required
+              placeholder="e.g example@gmail.com"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className={styles.inputLabel}>
+              Enter Password
+            </label>
+
+            <input
+              type="password"
+              className="input-field"
+              required
+              placeholder="******"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="file" className={styles.inputLabel}>
+              Add Profile Picture
+            </label>
+
+            <input type="file" className="" accept="image/*" id="file" />
+          </div>
+        </div>
+        <button
+          className="input-field bg-mainBlue font-bold mt-4 text-white"
+          type="submit"
+        >
+          Create Account
+        </button>
+      </form>
+    </AuthLayout>
+  );
+};
+
+const styles = {
+  title: "text-[1.2rem] text-mainBlue font-bold mb-4",
+  inputContainer: "grid md:grid-cols-2 gap-4",
+  inputLabel: "block mb-2 text-[0.9rem] text-gray-900 font-bold",
 };
 
 export default Register;

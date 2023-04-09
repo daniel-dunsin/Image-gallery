@@ -8,7 +8,7 @@ import profile from "../../assets/images/profile-img.jpg";
 
 const UserDetailsModal = () => {
   return (
-    <div className="w-[90vw] max-w-[250px] bg-white rounded-md shadow-md absolute top-[105%] right-0 user-details">
+    <div className="w-[90vw] max-w-[250px] bg-white rounded-md shadow-md absolute top-[105%] right-0 user-details z-[4]">
       <div className="flex items-center gap-3 flex-wrap p-4">
         <img
           src={profile}

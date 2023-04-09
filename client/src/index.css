@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* font */
+@font-face {
+  font-family: "manrope";
+  src: url(./assets/font/Manrope-VariableFont_wght.ttf);
+}
+
+* {
+  font-family: "manrope";
+}
+
+body {
+  background-color: rgb(226, 226, 226);
+}
+
+/* GENERAL STYLES */
+.input-field {
+  @apply w-full px-3 py-2 rounded-md border-[1.5px] focus:border-mainBlue outline-none max-w-[500px];
+}
+.full-rounded-input {
+  @apply w-full px-3 py-2 rounded-md border-[1.5px] focus:border-mainBlue outline-none max-w-[500px] rounded-[30px];
+}
+
+/* Animation for the user details navbar */
+.user-details {
+  animation: scale-up 0.4s;
+}
+@keyframes scale-up {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Modal Animation */
+.modal {
+  animation: animate-modal 0.3s linear;
+}
+
+@keyframes animate-modal {
+  0% {
+    opacity: 0;
+    transform: translateY(-45vh) scale(0);
+  }
+  100% {
+    opactiy: 1;
+    transform: translateY(0%) scale(1);
+  }
+}
+
+/* Input field */

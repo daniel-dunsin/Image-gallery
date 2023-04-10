@@ -19,20 +19,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 app.use(cookieParser());
 
 // Routes
-app.use("auth", authRoutes);
-app.use("folder", folderRoutes);
-app.use("image", imageRoutes);
+app.use("/auth", authRoutes);
+app.use("/folder", folderRoutes);
+app.use("/image", imageRoutes);
 
 // Error Handlers
 app.use(errorHandler);
 app.all("*", notFound);
 
 // start server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("Connected to Mongo DB");

@@ -3,17 +3,32 @@
  */
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../components/containers/authLayout";
+import { useAuth } from "../api/hooks/useAuth";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { register } = useAuth();
+
   const [email, setEmail] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
+  const [dp, setDp] = useState(null);
+
+  const createAccount = async (e) => {
+    e.preventDefault();
+    const user = await register(email, password, firstname, lastname, dp);
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/");
+    }
+  };
 
   return (
     <AuthLayout>
-      <form action="">
+      <form action="" onSubmit={createAccount}>
         <h1 className={styles.title}>Create your account</h1>
 
         <div className={styles.inputContainer}>
@@ -85,7 +100,15 @@ const Register = () => {
               Add Profile Picture
             </label>
 
-            <input type="file" className="" accept="image/*" id="file" />
+            <input
+              type="file"
+              className=""
+              accept="image/*"
+              id="file"
+              onChange={(e) => {
+                setDp(e.target.files[0]);
+              }}
+            />
           </div>
         </div>
         <button

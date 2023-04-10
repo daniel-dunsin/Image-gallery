@@ -6,6 +6,7 @@ class CustomError extends Error {
 }
 
 const errorHandler = (err, req, res, next) => {
+  console.log(err);
   if (err instanceof CustomError) {
     return res.status(err.statusCode).send({ err: err.message });
   }
@@ -13,7 +14,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 const notFound = (req, res, next) => {
-  return res.status(404).send({ msg: "Resource not found!" });
+  return res.status(404).send({ err: "Resource not found!" });
 };
 
 module.exports = {

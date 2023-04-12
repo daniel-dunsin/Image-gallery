@@ -13,6 +13,8 @@ const Navbar = () => {
   const toggleModalOpened = () => setUserModal((prev) => !prev);
   const closeModal = () => setUserModal(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <nav className={styles.navContainer}>
       <div className={styles.navbar}>
@@ -36,12 +38,14 @@ const Navbar = () => {
         <div className="relative">
           <div className={styles.userDetails} onClick={toggleModalOpened}>
             <img
-              src={image}
+              src={user?.dp}
               loading="lazy"
-              alt="Username"
+              alt={user?.firstname}
               className={styles.userImg}
             />
-            <p>Adejare Daniel</p>
+            <p>
+              {user?.firstname} {user?.lastname}
+            </p>
           </div>
           {userModal && <UserDetailsModal />}
         </div>

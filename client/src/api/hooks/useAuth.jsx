@@ -18,10 +18,40 @@ export const useAuth = () => {
       successRes("Account Created Successfully");
       return data.user;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       errorRes(error.response.data.err);
     }
   };
 
-  return { register };
+  const login = async (email, password) => {
+    loadingRes("Logging you in");
+
+    try {
+      const { data } = await http.post("/auth/login", { email, password });
+
+      successRes("Login Successful");
+
+      return data.user;
+    } catch (error) {
+      console.error(error);
+      errorRes(error.response.data.err);
+    }
+  };
+
+  const logout = async () => {
+    loadingRes("Logging you out");
+
+    try {
+      const { data } = await http.get("/auth/logout");
+
+      successRes("Logged out successfully");
+
+      return data?.message;
+    } catch (error) {
+      console.error(error);
+      errorRes(error.response.data.err);
+    }
+  };
+
+  return { register, login, logout };
 };

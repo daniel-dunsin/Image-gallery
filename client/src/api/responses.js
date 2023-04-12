@@ -14,7 +14,7 @@ const errorRes = (text) => {
 
 const loadingRes = (text) => {
   toast.info(text, {
-    autoClose: 5000,
+    autoClose: 1500,
   });
 };
 

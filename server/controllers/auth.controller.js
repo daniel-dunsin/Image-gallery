@@ -5,8 +5,8 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 
 /**
- * @ROUTE - /auth/register
- * @METHOD - POST
+ * @route - /auth/register
+ * @method - POST
  */
 
 exports.register = asyncHandler(async (req, res, next) => {
@@ -42,6 +42,8 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   const user = await userInstance.save();
 
+  const { password: userPassword, ...userInfo } = user._doc;
+
   // Generate user token
   const token = await user.createJWT();
 
@@ -51,14 +53,57 @@ exports.register = asyncHandler(async (req, res, next) => {
       httpOnly: true,
     })
     .json({
-      user,
+      user: userInfo,
+      message: "Account created successfully",
     });
 });
 
+/**
+ * @route - /auth/login
+ * @method - POST
+ */
+
 exports.login = asyncHandler(async (req, res, next) => {
-  res.send("Route Working");
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    throw new CustomError("Provide email and password", 400);
+  }
+
+  // Check if user exists
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new CustomError("User doesn't exist", 404);
+  }
+
+  // Compare passwords
+
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordMatch) {
+    throw new CustomError("Wrong Password", 400);
+  }
+
+  // Generate user token
+  const token = user.createJWT();
+
+  const { password: userPassword, ...userInfo } = user._doc;
+
+  res
+    .status(200)
+    .cookie("accessToken", token, {
+      httpOnly: true,
+    })
+    .json({
+      message: "Log in Successful",
+      user: userInfo,
+    });
 });
 
-exports.getUser = asyncHandler(async (req, res, next) => {
-  res.send("Route Working");
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.clearCookie("accessToken").status(200).json({
+    message: "Logged out successfully",
+  });
 });

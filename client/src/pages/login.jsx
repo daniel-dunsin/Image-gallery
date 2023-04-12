@@ -3,14 +3,30 @@
  */
 import React, { useState } from "react";
 import AuthLayout from "../components/containers/authLayout";
+import { useAuth } from "../api/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const loginUser = async (e) => {
+    e.preventDefault();
+
+    const user = await login(email, password);
+
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/");
+    }
+  };
+
   return (
     <AuthLayout>
-      <form action="">
+      <form action="" onSubmit={loginUser}>
         <h1 className={styles.title}>Log in to your account</h1>
         <div className={styles.inputContainer}>
           <div>

@@ -10,6 +10,7 @@ const { errorHandler, notFound } = require("./helpers/errors");
 const authRoutes = require("./routes/auth.route");
 const folderRoutes = require("./routes/folder.route");
 const imageRoutes = require("./routes/image.route");
+const isAuth = require("./middlewares/isAuth");
 
 // Initialize app
 const app = express();
@@ -24,8 +25,8 @@ app.use(cookieParser());
 
 // Routes
 app.use("/auth", authRoutes);
-app.use("/folder", folderRoutes);
-app.use("/image", imageRoutes);
+app.use("/folder", isAuth, folderRoutes);
+app.use("/image", isAuth, imageRoutes);
 
 // Error Handlers
 app.use(errorHandler);

@@ -6,6 +6,7 @@ import React from "react";
 import { BiPlus } from "react-icons/bi";
 import { useGlobalContext } from "../../../context";
 import SingleFolder from "./singleFolder";
+import { useGetAllFolders } from "../../../api/hooks/useFolders";
 
 const folders = [
   {
@@ -46,11 +47,12 @@ const folders = [
   },
 ];
 
-const FoldersList = () => {
+const FoldersList = (props) => {
   const { setAddFolderModalOpen } = useGlobalContext();
+
   return (
     <section className={styles.folderContainer}>
-      {folders.map((folder, index) => {
+      {props?.folders?.map((folder, index) => {
         return <SingleFolder {...folder} key={index} />;
       })}
       {/* For adding a new folder */}

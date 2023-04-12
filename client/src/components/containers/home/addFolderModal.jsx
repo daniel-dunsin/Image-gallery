@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiSave } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { useGlobalContext } from "../../../context";
+import { QueryClient, useMutation } from "react-query";
+import { addFolder } from "../../../api/hooks/useFolders";
 
 const AddFolderModal = () => {
   const { setAddFolderModalOpen } = useGlobalContext();
+
+  const [name, setName] = useState("");
+  const [cover, setCover] = useState(null);
+
+  // query client for refetching
+  const queryClient = new QueryClient();
+
+  // Mutation for adding folder
+  const mutation = useMutation({
+    mutationKey: ["add-folder"],
+    mutationFn: async () => {
+      const data = await addFolder(name, cover);
+      setAddFolderModalOpen(false);
+    },
+  });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    mutation.mutate(name, cover, {
+      // onSuccess: async () => {
+      //   await queryClient.invalidateQueries("get-folders");
+      // },
+    });
+  };
+
   return (
     <section className="w-full h-screen bg-[rgba(0,0,0,.5)] fixed top-0 left-0 z-[2] flex items-center justify-center">
       <div className="w-[90vw] p-6 rounded-md bg-white max-w-[450px] modal">
@@ -24,7 +51,7 @@ const AddFolderModal = () => {
             <MdClose />
           </span>
         </header>
-        <div className="mt-4 space-y-4">
+        <form onSubmit={onSubmit} className="mt-4 space-y-4">
           <div>
             <label
               htmlFor="folder-name"
@@ -37,6 +64,8 @@ const AddFolderModal = () => {
               placeholder="Folder name"
               className="input-field"
               id="folder-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div>
@@ -51,6 +80,10 @@ const AddFolderModal = () => {
               accept="image/*"
               className="input-field"
               id="folder-cover"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setCover(file);
+              }}
             />
           </div>
           <button
@@ -59,7 +92,7 @@ const AddFolderModal = () => {
           >
             Add Folder
           </button>
-        </div>
+        </form>
       </div>
     </section>
   );

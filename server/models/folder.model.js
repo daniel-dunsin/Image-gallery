@@ -6,6 +6,10 @@ const FolderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cover: {
+      type: String,
+      required: true,
+    },
     imagesCount: {
       type: Number,
       default: 0,

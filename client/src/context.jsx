@@ -2,7 +2,8 @@
  * Manages important global states
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGetAllFolders } from "./api/hooks/useFolders";
 
 // create context
 const AppContext = React.createContext({});
@@ -11,8 +12,15 @@ const AppContext = React.createContext({});
 const AppProvider = ({ children }) => {
   const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
 
+
+
   return (
-    <AppContext.Provider value={{ addFolderModalOpen, setAddFolderModalOpen }}>
+    <AppContext.Provider
+      value={{
+        addFolderModalOpen,
+        setAddFolderModalOpen,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -5,10 +5,11 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const SingleFolder = (props) => {
   return (
-    <Link to={`/folder/${props.name}`} className={styles.folder}>
+    <Link to={`/folder/${props._id}`} className={styles.folder}>
       {/* Image Container */}
       <div className={styles.imageContainer}>
         <img
@@ -23,10 +24,11 @@ const SingleFolder = (props) => {
           <h2 className="text-mainBlue font-bold text-[1rem] mb-1 leading-[1]">
             {props.name}
           </h2>
-          <p className="text-[14px]">{props.numberOfImages} images</p>
+          <p className="text-[14px]">{props.imagesCount} images</p>
         </div>{" "}
         <p className="text-[0.8rem]">
-          Last updated: <span className="font-bold">{props.updatedAt}</span>
+          Last updated:{" "}
+          <span className="font-bold">{moment(props.updatedAt).fromNow()}</span>
         </p>
       </div>
     </Link>

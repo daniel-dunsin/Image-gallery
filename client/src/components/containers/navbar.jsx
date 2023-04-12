@@ -11,7 +11,6 @@ const Navbar = () => {
   const [userModal, setUserModal] = useState(false);
 
   const toggleModalOpened = () => setUserModal((prev) => !prev);
-  const closeModal = () => setUserModal(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -22,17 +21,6 @@ const Navbar = () => {
         <Link to={"/"} className={styles.navbarBrand}>
           IMAGERY
         </Link>
-
-        {/* Search Bar, Display only on home page */}
-        {location.pathname === "/" && (
-          <div className="flex-1 text-center hidden md:block">
-            <input
-              type="text"
-              className="full-rounded-input"
-              placeholder="Search Folder..."
-            />
-          </div>
-        )}
 
         {/* User Details */}
         <div className="relative">

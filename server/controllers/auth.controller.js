@@ -87,7 +87,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 
   // Generate user token
-  const token = user.createJWT();
+  const token = await user.createJWT();
 
   const { password: userPassword, ...userInfo } = user._doc;
 

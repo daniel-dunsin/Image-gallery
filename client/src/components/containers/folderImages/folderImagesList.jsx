@@ -82,7 +82,7 @@ const FolderImagesList = () => {
           </div>
         );
       })}
-      <div className="pt-[460px] text-center">
+      <div className="pt-[520px] text-center">
         <div className={styles.controllersContainer}>
           {/* Buttons */}
           <span
@@ -126,9 +126,9 @@ const styles = {
   carouselContainer:
     "w-full px-6 py-8 relative overflow-x-hidden overflow-y-visible min-h-screen max-w-[1200px] mx-auto",
   singleImageContainer:
-    "w-full h-[400px] absolute top-[140px] transition-all duration-500 rounded-md overflow-hidden bg-[rgba(0,0,0,0.4)] max-w-[1200px] mx-auto",
+    "w-full h-[400px] absolute top-[140px] transition-all duration-500 rounded-md overflow-hidden bg-[rgba(0,0,0,0.4)] max-w-[1200px] mx-auto z-[1]",
   controllersContainer:
-    "flex items-center justify-center gap-4 flex-wrap text-mainBlue",
+    "flex items-center justify-center gap-4 flex-wrap text-mainBlue z-[6]",
 };
 
 export default FolderImagesList;

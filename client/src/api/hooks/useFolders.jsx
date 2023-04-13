@@ -3,17 +3,16 @@ import { http } from "../../axios.config";
 import { errorRes, loadingRes, successRes } from "../responses";
 
 export const useGetAllFolders = () => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: "get-folders",
     queryFn: async () => {
-      loadingRes("Fetching folders");
       const { data } = await http.get("/folder");
 
       return data?.folders;
     },
   });
 
-  return data;
+  return { data, refetch };
 };
 
 export const addFolder = async (name, cover) => {
@@ -32,6 +31,18 @@ export const addFolder = async (name, cover) => {
 
     await queryClient.invalidateQueries("get-folders");
     return data?.folders;
+  } catch (error) {
+    errorRes(error.response.data.err);
+  }
+};
+
+export const deleteFolder = async (id) => {
+  try {
+    const { data } = await http.delete("/folder/" + id);
+
+    successRes("Folder deleted successfully");
+
+    return data?.message;
   } catch (error) {
     errorRes(error.response.data.err);
   }

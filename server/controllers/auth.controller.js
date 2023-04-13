@@ -6,7 +6,7 @@ const User = require("../models/user.model");
 
 /**
  * @route - /auth/register
- * @method - POST
+ * @method POST
  */
 
 exports.register = asyncHandler(async (req, res, next) => {
@@ -60,7 +60,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 /**
  * @route - /auth/login
- * @method - POST
+ * @method POST
  */
 
 exports.login = asyncHandler(async (req, res, next) => {
@@ -101,6 +101,11 @@ exports.login = asyncHandler(async (req, res, next) => {
       user: userInfo,
     });
 });
+
+/**
+ * @route - /auth/logout
+ * @method GET
+ */
 
 exports.logout = asyncHandler(async (req, res, next) => {
   res.clearCookie("accessToken").status(200).json({

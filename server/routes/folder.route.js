@@ -9,11 +9,6 @@ router
   .post(multerUpload.single("cover"), folderController.createFolder)
   .get(folderController.getAllFolders);
 
-router
-  .route("/:folderId")
-  .post(folderController.addFolderImages)
-  .get(folderController.getFolderImages)
-  .put(folderController.updateFolderImages)
-  .delete(folderController.deleteFolder);
+router.route("/:folderId").delete(folderController.deleteFolder);
 
 module.exports = router;

@@ -117,6 +117,13 @@ const Register = () => {
         >
           Create Account
         </button>
+
+        <p className="max-w-fit ml-auto mt-2">
+          Already have an account?{" "}
+          <a href="/login" className="text-mainBlue font-bold">
+            Log in
+          </a>
+        </p>
       </form>
     </AuthLayout>
   );

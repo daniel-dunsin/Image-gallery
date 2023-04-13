@@ -7,6 +7,7 @@ const ImageSchema = new mongoose.Schema({
   },
   folder: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Folder",
   },
 });
 

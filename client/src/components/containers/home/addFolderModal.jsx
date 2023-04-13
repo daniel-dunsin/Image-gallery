@@ -2,34 +2,16 @@ import React, { useState } from "react";
 import { BiSave } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { useGlobalContext } from "../../../context";
-import { QueryClient, useMutation } from "react-query";
-import { addFolder } from "../../../api/hooks/useFolders";
 
-const AddFolderModal = () => {
+const AddFolderModal = (props) => {
   const { setAddFolderModalOpen } = useGlobalContext();
 
   const [name, setName] = useState("");
   const [cover, setCover] = useState(null);
 
-  // query client for refetching
-  const queryClient = new QueryClient();
-
-  // Mutation for adding folder
-  const mutation = useMutation({
-    mutationKey: ["add-folder"],
-    mutationFn: async () => {
-      const data = await addFolder(name, cover);
-      setAddFolderModalOpen(false);
-    },
-  });
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    mutation.mutate(name, cover, {
-      // onSuccess: async () => {
-      //   await queryClient.invalidateQueries("get-folders");
-      // },
-    });
+    props.mutation.mutate({ name, cover });
   };
 
   return (

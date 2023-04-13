@@ -8,16 +8,28 @@ import FoldersList from "../components/containers/home/foldersList";
 import Navbar from "../components/containers/navbar";
 import { useGlobalContext } from "../context";
 import { useGetAllFolders } from "../api/hooks/useFolders";
+import { useMutation } from "react-query";
+import { addFolder } from "../api/hooks/useFolders";
 
 const Home = () => {
-  const { addFolderModalOpen } = useGlobalContext();
+  const { addFolderModalOpen, setAddFolderModalOpen } = useGlobalContext();
 
-  const data = useGetAllFolders();
+  const { data, refetch } = useGetAllFolders();
+
+  // Mutation for adding folder
+  const mutation = useMutation({
+    mutationKey: ["add-folder"],
+    mutationFn: async ({ name, cover }) => {
+      const data = await addFolder(name, cover);
+      setAddFolderModalOpen(false);
+      await refetch();
+    },
+  });
 
   return (
     <React.Fragment>
       <Navbar />
-      {addFolderModalOpen && <AddFolderModal />}
+      {addFolderModalOpen && <AddFolderModal mutation={mutation} />}
       <FoldersList folders={data} />
     </React.Fragment>
   );

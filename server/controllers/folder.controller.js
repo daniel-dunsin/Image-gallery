@@ -2,10 +2,11 @@ const asyncHandler = require("../helpers/asyncHandler");
 const Folder = require("../models/folder.model");
 const Image = require("../models/image.model");
 const { uploadToCloud } = require("../upload.config");
+const { CustomError } = require("../helpers/errors");
 
 /**
  * @route - /folder
- * @method - POST
+ * @method POST
  */
 
 exports.createFolder = asyncHandler(async (req, res, next) => {
@@ -30,8 +31,8 @@ exports.createFolder = asyncHandler(async (req, res, next) => {
 });
 
 /**
- * @route - folder
- * @method - GET
+ * @route - /folder
+ * @method GET
  */
 
 exports.getAllFolders = asyncHandler(async (req, res, next) => {
@@ -44,15 +45,23 @@ exports.getAllFolders = asyncHandler(async (req, res, next) => {
     folders,
   });
 });
-exports.getFolderImages = asyncHandler(async (req, res, next) => {
-  res.send("Route Working");
-});
-exports.addFolderImages = asyncHandler(async (req, res, next) => {
-  res.send("Route Working");
-});
-exports.updateFolderImages = asyncHandler(async (req, res, next) => {
-  res.send("Route Working");
-});
+
 exports.deleteFolder = asyncHandler(async (req, res, next) => {
-  res.send("Route Working");
+  const { folderId } = req.params;
+
+  if (!folderId) {
+    throw new CustomError("Provide folder id", 400);
+  }
+
+  const folder = await Folder.findByIdAndDelete(folderId);
+
+  if (!folder) {
+    throw new CustomError("Folder does not exist", 404);
+  }
+
+  await Image.deleteMany({ folder: folder._id });
+
+  res.status(200).send({
+    message: "Folder deleted successfully",
+  });
 });

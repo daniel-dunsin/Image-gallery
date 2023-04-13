@@ -67,6 +67,12 @@ const Login = () => {
           >
             Log in
           </button>
+          <p className="max-w-fit ml-auto mt-2">
+            Yet to register?{" "}
+            <a href="/register" className="text-mainBlue font-bold">
+              Create account
+            </a>
+          </p>
         </div>
       </form>
     </AuthLayout>

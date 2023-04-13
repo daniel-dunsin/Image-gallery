@@ -3,37 +3,21 @@
  */
 
 import React, { useState } from "react";
-import {
-  BiChevronLeft,
-  BiChevronLeftCircle,
-  BiChevronRight,
-  BiChevronRightCircle,
-  BiDownload,
-  BiPlus,
-  BiTrash,
-} from "react-icons/bi";
+import { BiPlus, BiTrash } from "react-icons/bi";
+import Carousel from "./carousel";
+import { useParams } from "react-router-dom";
 
-const folderImages = ["/bg.jpg", "/postman.jpg", "/bg.jpg"];
+const FolderImagesList = (props) => {
+  const [files, setFiles] = useState(null);
 
-const FolderImagesList = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextImage = () => {
-    if (currentIndex < folderImages.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
-  const previousImage = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+  const { id } = useParams();
 
   return (
     <div className={styles.carouselContainer}>
       <header className="w-full flex justify-between items-center flex-wrap gap-3">
         <h2 className="text-[1.1rem] leading-1">
-          <span className="text-mainBlue font-bold">Adejare</span> - 8 images
+          <span className="text-mainBlue font-bold">{props?.folder?.name}</span>{" "}
+          - {props?.folder?.imagesCount} images
         </h2>
 
         <div className={styles.controllersContainer + " flex-nowrap"}>
@@ -55,10 +39,19 @@ const FolderImagesList = () => {
               className="hidden"
               accept="image/*"
               id="add-image"
+              name={id}
+              onChange={(e) => {
+                setFiles(e.target.files);
+                props.addImagesMutation.mutate(e);
+              }}
             />
           </div>
+
           {/* For deleting the folder */}
-          <div className="text-mainBlue font-bold cursor-pointer">
+          <div
+            className="text-mainBlue font-bold cursor-pointer"
+            onClick={props?.deleteFolder}
+          >
             <span className="align-middle inline-block mr-2">
               <BiTrash />
             </span>
@@ -66,58 +59,10 @@ const FolderImagesList = () => {
           </div>
         </div>
       </header>
-
-      {folderImages.map((image, index) => {
-        return (
-          <div
-            className={styles.singleImageContainer}
-            style={{ left: `${(index - currentIndex) * 100}%` }}
-            key={index}
-          >
-            <img
-              src={image}
-              alt={image}
-              className="w-full h-full object-contain"
-            />
-          </div>
-        );
-      })}
-      <div className="pt-[520px] text-center">
-        <div className={styles.controllersContainer}>
-          {/* Buttons */}
-          <span
-            className={`text-[2.5rem] cursor-pointer ${
-              currentIndex === 0 && "opacity-30"
-            }`}
-            onClick={previousImage}
-          >
-            <BiChevronLeftCircle />
-          </span>
-          <span
-            className={`text-[2.5rem] cursor-pointer ${
-              currentIndex === folderImages.length - 1 && "opacity-30"
-            }`}
-            onClick={nextImage}
-          >
-            <BiChevronRightCircle />
-          </span>
-        </div>
-        <div className={styles.controllersContainer}>
-          <p className="text-mainBlue font-bold text-[1rem] mt-5 cursor-pointer">
-            <span className="align-middle inline-block mr-2">
-              <BiDownload />
-            </span>
-            Download Image
-          </p>
-
-          <p className="text-mainBlue font-bold text-[1rem] mt-5 cursor-pointer">
-            <span className="align-middle inline-block mr-2">
-              <BiTrash />
-            </span>
-            Delete Image
-          </p>
-        </div>
-      </div>
+      <Carousel
+        images={props?.folder?.images}
+        deleteImageMutation={props.deleteImageMutation}
+      />
     </div>
   );
 };

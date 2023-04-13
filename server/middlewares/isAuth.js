@@ -7,15 +7,18 @@ module.exports = async (req, res, next) => {
   const token = req.cookies.accessToken;
 
   if (!token || typeof token !== "string") {
+    return next(new CustomError("No Token Provided", 401));
+  } else {
+    const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
+
+    if (!decodedToken) {
+      return next(new CustomError("Invalid token", 401));
+    }
+
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.userId = user.userId;
+
+    next();
   }
-
-  const user = jwt.verify(token, process.env.JWT_SECRET);
-
-  if (!user) {
-    throw new CustomError("Invalid token", 401);
-  }
-
-  req.userId = user.userId;
-
-  next();
 };

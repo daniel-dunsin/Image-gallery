@@ -6,7 +6,7 @@ import axios from "axios";
 import { errorRes } from "./api/responses";
 
 export const http = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "https://image-gallery-backend.onrender.com",
   withCredentials: true,
 });
 
